@@ -1,0 +1,14 @@
+server:
+  port: 8087
+spring:
+  data:
+    mongodb:
+      uri: mongodb://<user>:<password>@<host>:27017/<database>
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: <username>
+    password: <password>

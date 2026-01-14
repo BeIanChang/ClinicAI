@@ -1,0 +1,8 @@
+.mvn
+.target
+target
+.git
+.gradle
+build
+out
+*.log

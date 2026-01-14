@@ -1,0 +1,14 @@
+spring.application.name=labtest
+
+# MongoDB (shared clinicai-data database)
+spring.data.mongodb.uri=mongodb+srv://<user>:<password>@<host>/<database>
+
+# RabbitMQ
+spring.rabbitmq.host=localhost
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=guest
+spring.rabbitmq.password=<password>
+
+server.port=8088
+
+management.endpoints.web.exposure.include=health,metrics

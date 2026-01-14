@@ -1,0 +1,7 @@
+server:
+  port: 8082
+spring:
+  data:
+    mongodb:
+      uri: mongodb://<user>:<password>@<host>:27017/<database>
+  rabbitmq: { host: localhost, port: 5672, username: <username>, password: <password> }

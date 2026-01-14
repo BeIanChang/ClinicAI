@@ -1,0 +1,3 @@
+spring.application.name=billing
+logging.level.org.springframework.web=DEBUG
+logging.level.org.springframework.http.converter.json=DEBUG

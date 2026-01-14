@@ -1,0 +1,7 @@
+# Gradle local cache/state
+**/.gradle/
+**/build/
+**/application.yml
+**/application.properties
+!**/application.yml.example
+!**/application.properties.example
