@@ -8,6 +8,17 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+  
+  mongodb:
+    image: mongo:7
+    container_name: clinicai-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
 
   account:
     build: ./account
@@ -16,93 +27,34 @@ services:
       - "8081:8081"
     environment:
       - SERVER_PORT=8081
+      - SPRING_DATA_MONGODB_URI=mongodb://admin:password@mongodb:27017/clinicai-account?authSource=admin
       - SPRING_RABBITMQ_HOST=rabbitmq
       - SPRING_RABBITMQ_PORT=5672
       - SPRING_RABBITMQ_USERNAME=guest
       - SPRING_RABBITMQ_PASSWORD=guest
-    depends_on:
+      - JWT_SECRET=clinicai-secure-jwt-secret-key-for-production-environment-2024
+depends_on:
       - rabbitmq
+      - mongodb
 
-  billing:
-    build: ./billing
-    container_name: clinicai-billing
-    ports:
-      - "8082:8082"
-    environment:
-      - SERVER_PORT=8082
-      - SPRING_RABBITMQ_HOST=rabbitmq
-      - SPRING_RABBITMQ_PORT=5672
-      - SPRING_RABBITMQ_USERNAME=guest
-      - SPRING_RABBITMQ_PASSWORD=guest
-    depends_on:
-      - rabbitmq
+volumes:
+  mongodb_data:
 
-  data:
-    build: ./data
-    container_name: clinicai-data
+  summarization:
+    build: ./summarization
+    container_name: clinicai-summarization
     ports:
-      - "8083:8083"
+      - "8091:8091"
     environment:
-      - SERVER_PORT=8083
+      - SERVER_PORT=8091
+      - SPRING_DATA_MONGODB_URI=mongodb://admin:password@mongodb:27017/clinicai-summarization?authSource=admin
       - SPRING_RABBITMQ_HOST=rabbitmq
       - SPRING_RABBITMQ_PORT=5672
       - SPRING_RABBITMQ_USERNAME=guest
       - SPRING_RABBITMQ_PASSWORD=guest
+      - JWT_SECRET=clinicai-secure-jwt-secret-key-for-production-environment-2024
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - LANGCHAIN_OPENAI_API_KEY=${OPENAI_API_KEY}
     depends_on:
       - rabbitmq
-
-  encounter:
-    build: ./encounter
-    container_name: clinicai-encounter
-    ports:
-      - "8087:8087"
-    environment:
-      - SERVER_PORT=8087
-      - SPRING_RABBITMQ_HOST=rabbitmq
-      - SPRING_RABBITMQ_PORT=5672
-      - SPRING_RABBITMQ_USERNAME=guest
-      - SPRING_RABBITMQ_PASSWORD=guest
-    depends_on:
-      - rabbitmq
-
-  labtest:
-    build: ./labtest
-    container_name: clinicai-labtest
-    ports:
-      - "8088:8088"
-    environment:
-      - SERVER_PORT=8088
-      - SPRING_RABBITMQ_HOST=rabbitmq
-      - SPRING_RABBITMQ_PORT=5672
-      - SPRING_RABBITMQ_USERNAME=guest
-      - SPRING_RABBITMQ_PASSWORD=guest
-    depends_on:
-      - rabbitmq
-
-  labtest-list:
-    build: ./labtest-list
-    container_name: clinicai-labtest-list
-    ports:
-      - "8085:8085"
-    environment:
-      - SERVER_PORT=8085
-      - SPRING_RABBITMQ_HOST=rabbitmq
-      - SPRING_RABBITMQ_PORT=5672
-      - SPRING_RABBITMQ_USERNAME=guest
-      - SPRING_RABBITMQ_PASSWORD=guest
-    depends_on:
-      - rabbitmq
-
-  email:
-    build: ./email
-    container_name: clinicai-email
-    ports:
-      - "8089:8089"
-    environment:
-      - SERVER_PORT=8089
-      - SPRING_RABBITMQ_HOST=rabbitmq
-      - SPRING_RABBITMQ_PORT=5672
-      - SPRING_RABBITMQ_USERNAME=guest
-      - SPRING_RABBITMQ_PASSWORD=guest
-    depends_on:
-      - rabbitmq
+      - mongodb
