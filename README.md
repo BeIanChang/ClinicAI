@@ -237,7 +237,31 @@ curl -X POST http://localhost:8091/api/summaries/generate \
 
 ---
 
-## 8. Development & Deployment
+## 8. Frontend (React)
+
+A minimal React UI is available under `frontend/`.
+
+### 8.1 Setup
+
+```bash
+cd frontend
+npm install
+cp .env.example .env
+```
+
+Update `VITE_AUTH_BASE_URL` (auth service) and `VITE_SUMMARY_BASE_URL` (summarization service).
+
+### 8.2 Run
+
+```bash
+npm run dev
+```
+
+Open `http://localhost:5173` for the auth console.
+
+---
+
+## 9. Development & Deployment
 
 ### 8.1 Environment Variables
 
@@ -266,7 +290,7 @@ Access monitoring interfaces:
 
 ---
 
-## 9. Architecture Benefits
+## 10. Architecture Benefits
 
 ### 9.1 Security & Compliance
 - **Zero Trust Architecture**: JWT-based authentication for all services
@@ -285,7 +309,7 @@ Access monitoring interfaces:
 
 ---
 
-## 10. Troubleshooting
+## 11. Troubleshooting
 
 ### Common Issues:
 
